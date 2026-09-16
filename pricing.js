@@ -1,14 +1,24 @@
 function calculateTotal(items, discountCode) {
-  let subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+  let subtotal = 0;
+  let totalQty = 0;
+
+  for (let i = 0; i < items.length; i++) {
+    subtotal += items[i].price * items[i].qty;
+    totalQty += items[i].qty;
+  }
+
+
   let discount = 0;
 
   if (discountCode === 'SAVE10') {
-    discount = subtotal * 0.10;
-  } else if (discountCode === 'BULK20' && items.length > 5) {
-    discount = subtotal * 0.20;
+    discount = 0.10;
+  } else if (discountCode === 'BULK20' && totalQty >= 5) {
+    discount = 0.20;
+  } else if (discountCode === 'HOLIDAY30') {
+    discount = 0.30;
   }
 
-  return subtotal - discount;
+  return subtotal * (1 - discount);
 }
 
 module.exports = { calculateTotal };
